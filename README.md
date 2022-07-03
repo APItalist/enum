@@ -52,7 +52,7 @@ You can pass the following options to the enum generator:
 
 ## Documentation
 
-For documentation please see [pkg.go.dev/github.com/apitalist/enum](https://pkg.go.dev/github.com/apitalist/enum).
+For API documentation please see [pkg.go.dev/github.com/apitalist/enum](https://pkg.go.dev/github.com/apitalist/enum).
 
 ## License
 
