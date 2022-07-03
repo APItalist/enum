@@ -1,6 +1,7 @@
 package string
 
 import (
+    "encoding/json"
     "fmt"
     "log"
     "os"
@@ -21,6 +22,26 @@ func TestValue(t *testing.T) {
         t.Run(fmt.Sprintf("%v", v), func(t *testing.T) {
             if err := v.Validate(); err != nil {
                 t.Fatalf("%v failed validation (%v)", v, err)
+            }
+        })
+    }
+}
+
+func TestJSON(t *testing.T) {
+    for _, v := range []TestEnum{
+        TestEnumA, TestEnumB,
+    } {
+        t.Run(fmt.Sprintf("%v", v), func(t *testing.T) {
+            data, err := json.Marshal(v)
+            if err != nil {
+                t.Fatalf("failed to marshal %v (%v)", v, err)
+            }
+            var result TestEnum
+            if err := json.Unmarshal(data, &result); err != nil {
+                t.Fatalf("failed to unmashal %v (%v)", v, err)
+            }
+            if result != v {
+                t.Fatalf("mismatch (expected: %v, got: %v)", v, result)
             }
         })
     }

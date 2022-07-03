@@ -22,6 +22,7 @@ func main() {
     var noGenerateValidate bool
     var noGenerateValues bool
     var noGenerateListType bool
+    var noGenerateJSON bool
     targetFile := ""
     flag.StringVar(&spec.Type, "type", spec.Type, "Type to generate enum helpers for.")
     flag.StringVar(&spec.Directory, "source", spec.Directory, "Source directory for the type.")
@@ -30,6 +31,7 @@ func main() {
     flag.BoolVar(&noGenerateValidate, "novalidate", noGenerateValidate, "Do not generate validation functions.")
     flag.BoolVar(&noGenerateValues, "novalues", noGenerateValues, "Do not generate values functions.")
     flag.BoolVar(&noGenerateListType, "nolist", noGenerateListType, "Do not generate list type.")
+    flag.BoolVar(&noGenerateJSON, "nojson", noGenerateJSON, "Do not generate JSON unmarshaller.")
     flag.Parse()
 
     if targetFile == "" {
@@ -39,6 +41,7 @@ func main() {
     spec.GenerateValues = !noGenerateValues
     spec.GenerateListType = !noGenerateListType
     spec.GenerateTests = !noGenerateTests
+    spec.GenerateJSON = !noGenerateJSON
 
     generator := enum.New()
     enumContent, testContent, err := generator.Generate(spec)

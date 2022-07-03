@@ -40,6 +40,8 @@ type Spec struct {
     GenerateValues bool
     // GenerateListType generates a list type.
     GenerateListType bool
+    // GenerateJSON generates a JSON unmarshaller with validation.
+    GenerateJSON bool
 }
 
 // Validate validates the specification.

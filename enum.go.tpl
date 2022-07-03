@@ -4,8 +4,10 @@
 package {{ .Package }}
 
 import (
-{{ range .Imports "fmt" "strings"}}    "{{ . }}"
-{{ end}})
+{{ if and (eq .Spec.GenerateJSON true) (ne .RawType "") -}}
+{{ range .Imports "fmt" "strings" "encoding/json"}}    "{{ . }}"
+{{ end }}{{ else }}{{ range .Imports "fmt" "strings"}}    "{{ . }}"
+{{ end }}{{ end }})
 
 {{ if .Spec.GenerateValues -}}
 // {{ .Type }}Values returns all possible values for {{ .Type }}.
@@ -43,6 +45,22 @@ func ({{ .First }} {{ .Type }}) Validate() error {
     }
     return nil
 }
+{{- if and (eq .Spec.GenerateJSON true) (ne .RawType "") }}
+// UnmarshalJSON unmarshalls a JSON-encoded value and validates it against valid enum values.
+func ({{ .First }} *{{ .Type }}) UnmarshalJSON(data []byte) error {
+    var raw {{ .RawType }}
+    if err := json.Unmarshal(data, &raw); err != nil {
+        return err
+    }
+    var targetType {{ .Type }}
+    targetType = {{ .Type }}(raw)
+    if err := targetType.Validate(); err != nil {
+        return err
+    }
+    *{{ .First }} = targetType
+    return nil
+}
+{{- end }}
 {{- end }}
 
 {{ if .Spec.GenerateListType -}}

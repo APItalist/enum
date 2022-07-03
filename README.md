@@ -36,6 +36,10 @@ func (m MyEnum) Validate() error {
     // ...
 }
 
+func (m *MyEnum) UnmarshalJSON(data []byte) error {
+    // Only generated for non-struct enums
+}
+
 func MyEnumValues() []MyEnum {
     // ...
 }
@@ -64,7 +68,7 @@ const (
 )
 ```
 
-Or safe enums. You may want to implement JSON and text marshalling though.
+Or safe enums. You may want to implement JSON and text marshalling for these though.
 
 ```go
 //go:generate go run github.com/apitalist/enum/cmd/enum/ -type MyEnum
@@ -92,6 +96,7 @@ You can pass the following options to the enum generator:
 | `-novalidate` | `false`            | Do not generate `Validate()` functions                                     |
 | `-novalues`   | `false`            | Do not generate `Values()` functions                                       |
 | `-nolist`     | `false`            | Do not generate list types                                                 |
+| `-nojson`     | `false`            | Do not generate `UnmarshalJSON()` function.                                |
 
 ## Documentation
 
