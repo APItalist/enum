@@ -166,8 +166,34 @@ func (g generator) parse(s Spec) (*TemplateScope, error) {
                         typePkg = pkg
                     case token.CONST:
                         for _, spec := range genDecl.Specs {
+                            valueSpec, ok := spec.(*ast.ValueSpec)
+                            if !ok {
+                                continue
+                            }
+                            ident, ok := valueSpec.Type.(*ast.Ident)
+                            if !ok {
+                                continue
+                            }
+                            if ident.Name != s.Type {
+                                continue
+                            }
+                            values = append(values, valueSpec)
+                        }
+                    case token.VAR:
+                        for _, spec := range genDecl.Specs {
                             valueSpec := spec.(*ast.ValueSpec)
-                            if valueSpec.Type.(*ast.Ident).Name != s.Type {
+                            if len(valueSpec.Values) != 1 {
+                                continue
+                            }
+                            compositeLit, ok := valueSpec.Values[0].(*ast.CompositeLit)
+                            if !ok {
+                                continue
+                            }
+                            ident, ok := compositeLit.Type.(*ast.Ident)
+                            if !ok {
+                                continue
+                            }
+                            if ident.Name != s.Type {
                                 continue
                             }
                             values = append(values, valueSpec)
@@ -189,6 +215,10 @@ func (g generator) parse(s Spec) (*TemplateScope, error) {
             tplValues = append(tplValues, name.Name)
         }
     }
+    rawType := ""
+    if ident, ok := typeSpec.Type.(*ast.Ident); ok {
+        rawType = ident.Name
+    }
     tplData := &TemplateScope{
         Exported:       typeSpec.Name.IsExported(),
         Package:        typePkg.Name,
@@ -196,7 +226,7 @@ func (g generator) parse(s Spec) (*TemplateScope, error) {
         LowerFirst:     strings.ToLower(s.Type[0:1]) + s.Type[1:],
         Type:           s.Type,
         Values:         tplValues,
-        RawType:        typeSpec.Type.(*ast.Ident).Name,
+        RawType:        rawType,
         Spec:           s,
         ConvertImports: map[string]struct{}{},
     }
