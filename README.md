@@ -10,6 +10,21 @@ Install by typing:
 go install github.com/apitalist/enum/cmd/enum
 ```
 
+If you want to pin it to your project as a dependency, you may also want to type:
+
+```
+go get github.com/apitalist/enum/cmd/enum
+```
+
+Then create a file called `tools.go` and add the following dependency to make sure `go mod tidy doesn't remove it:
+
+```go
+//go:build tools
+package yourpackage
+
+import _ "github.com/apitalist/enum"
+```
+
 ## Usage
 
 First, add your enum:
