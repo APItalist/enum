@@ -34,7 +34,35 @@ This will generate a file called `enum_MyEnum.go` as well as `enum_MyEnum_test.g
 - `Validate()` validates the enum and returns an error if the value is not one of the specified constants.
 - `MyEnumValues()` returns a list of valid value for the enum.
 - `MyEnums` is a type for a list of `MyEnum` values.
-- `MyEnumValueStrings()` returns a list of valid values as strings for the enm.
+- `MyEnumValueStrings()` returns a list of valid values as strings for the enum.
+
+It also supports other enum types:
+
+```go
+//go:generate go run github.com/apitalist/enum/cmd/enum/ -type MyEnum
+type MyEnum int
+
+const (
+    MyEnumA MyEnum = iota
+    MyEnumB
+    MyEnumC
+)
+```
+
+Or safe enums. You may want to implement JSON and text marshalling though.
+
+```go
+//go:generate go run github.com/apitalist/enum/cmd/enum/ -type MyEnum
+type MyEnum struct {
+    value string
+}
+
+var (
+    MyEnumA MyEnum = MyEnum{"a"}
+    MyEnumB MyEnum = MyEnum{"b"}
+    MyEnumC MyEnum = MyEnum{"c"}
+)
+```
 
 ## Options
 
