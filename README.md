@@ -7,12 +7,6 @@ This library provides automatic enum code generation for Go.
 Install by typing:
 
 ```
-go install github.com/apitalist/enum/cmd/enum
-```
-
-If you want to pin it to your project as a dependency, you may also want to type:
-
-```
 go get github.com/apitalist/enum/cmd/enum
 ```
 
