@@ -5,6 +5,7 @@ type TestEnum int
 
 const (
     TestEnumA TestEnum = iota
-    TestEnumB TestEnum = iota
+    TestEnumB
+    Foo       string   = "test"
     TestEnumC TestEnum = iota
 )

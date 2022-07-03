@@ -165,16 +165,25 @@ func (g generator) parse(s Spec) (*TemplateScope, error) {
                         }
                         typePkg = pkg
                     case token.CONST:
+                        iota := false
                         for _, spec := range genDecl.Specs {
                             valueSpec, ok := spec.(*ast.ValueSpec)
                             if !ok {
                                 continue
                             }
+                            if len(valueSpec.Values) == 1 {
+                                value := valueSpec.Values[0]
+                                if ident, ok := value.(*ast.Ident); ok && ident.Name == "iota" {
+                                    iota = true
+                                } else {
+                                    iota = false
+                                }
+                            }
                             ident, ok := valueSpec.Type.(*ast.Ident)
-                            if !ok {
+                            if !ok && !iota {
                                 continue
                             }
-                            if ident.Name != s.Type {
+                            if !iota && (ident == nil || ident.Name != s.Type) {
                                 continue
                             }
                             values = append(values, valueSpec)
