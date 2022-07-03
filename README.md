@@ -48,4 +48,12 @@ You can pass the following options to the enum generator:
 | `-notests`    | `false`            | Do not generate tests                                                      |
 | `-novalidate` | `false`            | Do not generate `Validate()` functions                                     |
 | `-novalues`   | `false`            | Do not generate `Values()` functions                                       |
-| `-nolist`     | `false`            | Do not generate list types                                                 |         
+| `-nolist`     | `false`            | Do not generate list types                                                 |
+
+## Documentation
+
+For documentation please see [pkg.go.dev/github.com/apitalist/enum](https://pkg.go.dev/github.com/apitalist/enum).
+
+## License
+
+APItalist is licensed under [the Apache 2.0 license](LICENSE).
