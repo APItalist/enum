@@ -29,12 +29,27 @@ Then add a generate line:
 //go:generate go run github.com/apitalist/enum/cmd/enum/ -type MyEnum
 ```
 
-This will generate a file called `enum_MyEnum.go` as well as `enum_MyEnum_test.go` with the following functions:
+This will generate a file called `enum_MyEnum.go` as well as `enum_MyEnum_test.go` with the following helpers:
 
-- `Validate()` validates the enum and returns an error if the value is not one of the specified constants.
-- `MyEnumValues()` returns a list of valid value for the enum.
-- `MyEnums` is a type for a list of `MyEnum` values.
-- `MyEnumValueStrings()` returns a list of valid values as strings for the enum.
+```go
+func (m MyEnum) Validate() error {
+    // ...
+}
+
+func MyEnumValues() []MyEnum {
+    // ...
+}
+
+func MyEnumValueStrings() []string {
+    // ...
+}
+
+type MyEnums []MyEnum
+
+func (m MyEnums) Validate() error {
+    // ...
+}
+```
 
 It also supports other enum types:
 
